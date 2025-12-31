@@ -1,17 +1,12 @@
 FROM alpine
 LABEL MAINTAINER pentestdatabase@gmail.com
 
-RUN apk add --no-cache python && \
-    python -m ensurepip && \
-    rm -r /usr/lib/python*/ensurepip && \
-    pip install --upgrade pip setuptools && \
-    rm -r /root/.cache
+RUN apk add --no-cache python3 py3-pip git && \
+    rm -rf /var/cache/apk/*
 
-
-RUN apk add git
-RUN git clone https://github.com/ismailtasdelen/shodansploit.git  /tmp/shodansploit
+RUN git clone https://github.com/ismailtasdelen/shodansploit.git /tmp/shodansploit
 
 WORKDIR /tmp/shodansploit
-RUN pip install requests
+RUN pip install -r requirements.txt
 
-ENTRYPOINT ["python", "shodansploit.py"]
+ENTRYPOINT ["python3", "shodansploit.py"]
